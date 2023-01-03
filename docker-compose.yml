@@ -1,0 +1,21 @@
+version: '3'
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+    command: sh -c "cargo watch -x run"
+    environment:
+      - MONGODB_CONNSTRING=mongodb://user:password@mongodb
+      - MONGODB_DATABASE=dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    ports:
+      - "27017:27017"
